@@ -15,7 +15,8 @@
         <title>WIM graph!</title>
     </head>
     <body>
-        <canvas id="viewport" width="800" height="600"></canvas>
+        <canvas id="viewport" width="600" height="400" display="inline-block"></canvas>
+        <div id="wimInfo" display="inline-block"><h1>No frame selected</h1></div>
         <script src="js/tree.js"></script>
     </body>
 </html>
