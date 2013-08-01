@@ -1,5 +1,6 @@
 function getWIMinfo(wim){
-    var info = "<h1>" + wim.name + "(" + wim.concept + ")</h1>";
+    var info = "<h1>" + wim.frame + "(" + wim.anchor + ")</h1>";
+    info += 'Sense:  ' + wim.sense + "<br />";
     for (i in wim.attributes){
         var attr = wim.attributes[i];
         for (attrName in attr){
@@ -9,7 +10,7 @@ function getWIMinfo(wim){
     }
     for (j in wim.relations){
         var relation = wim.relations[j];
-        info += relation.type + ":  " + relation.range + "<br />";
+        info += relation.relation + ":  " + relation.frame + "<br />";
     }
     return info;
 }
@@ -154,44 +155,77 @@ function getWIMinfo(wim){
         }) // use center-gravity to make the graph settle nicely (ymmv)
         sys.renderer = Renderer("#viewport") // our newly created renderer will have its .init() method called shortly by sys...
 
+        //        var wims = [
+        //        {
+        //            name : "human-1",
+        //            concept : '@human',
+        //            relations : [],
+        //            attributes : [
+        //            {
+        //                gender : 'male'
+        //            }
+        //            ]
+        //        },
+        //        {
+        //            name : "hit-1",
+        //            concept : '@hit',
+        //            relations : [
+        //            { 
+        //                type : 'agent',
+        //                range : 'human-1'
+        //            },
+        //            {
+        //                type : 'theme',
+        //                range : 'building-1'
+        //            }
+        //            ],
+        //            attributes : []
+        //        },
+        //        {
+        //            name : "building-1",
+        //            concept : '@building',
+        //            relations : [],
+        //            attributes : []
+        //        },
+        //        ];
+
         var wims = [
-        {
-            name : "human-1",
-            concept : '@human',
-            relations : [],
-            attributes : [
             {
-                gender : 'male'
-            }
-            ]
-        },
-        {
-            name : "hit-1",
-            concept : '@hit',
-            relations : [
-            { 
-                type : 'agent',
-                range : 'human-1'
-            },
+                "attributes": [], 
+                "frame": "@stumble-1", 
+                "anchor": "hit-3", 
+                "relations": [
+                {
+                    "frame": "*actor-1", 
+                    "relation": "agent"
+                }, 
+                {
+                    "frame": "*prop-1", 
+                    "relation": "theme"
+                }
+                ], 
+                "sense": "@stumble:hit-v-1"
+            }, 
             {
-                type : 'theme',
-                range : 'building-1'
+                "attributes": [], 
+                "frame": "*prop-1", 
+                "anchor": "building-5", 
+                "relations": [], 
+                "sense": "unknown"
+            }, 
+            {
+                "attributes": [], 
+                "frame": "*actor-1", 
+                "anchor": "man-2", 
+                "relations": [], 
+                "sense": "unknown"
             }
-            ],
-            attributes : []
-        },
-        {
-            name : "building-1",
-            concept : '@building',
-            relations : [],
-            attributes : []
-        },
         ];
     
     
         for (i in wims) {
             var wim = wims[i];
-            sys.addNode(wim.name, {
+            sys.addNode(wim.frame, {
                 wim : wim
             });
         }
@@ -200,8 +234,8 @@ function getWIMinfo(wim){
             var wim = wims[i];
             for (j in wim.relations){
                 var relation = wim.relations[j];
-                sys.addEdge(wim.name, relation.range, {
-                    label: relation.type
+                sys.addEdge(wim.frame, relation.frame, {
+                    label: relation.relation
                 });
             }
         }
